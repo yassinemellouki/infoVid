@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Button, Dimensions, TouchableWithoutFeedback, StyleSheet } from "react-native";
+import Loading from '../../components/common/Loading';
 import { Colors } from "../../shared/Variables";
 import Flag from "../../components/common/Flag";
 import Statistics from "./Statistics";
@@ -29,6 +30,8 @@ function StatisticsScreen({
     let [chartData, setChartData] = useState([0]);
     let [globalChartData, setGlobalChartData] = useState([0]);
     let [pickedDefaultValue, setPickerDefaultValue] = useState(undefined);
+    let [isLoading, setIsLoading] = useState(true);
+    let [historyLoading, setHistoryLoading] = useState(true);
 
     let handleSwitchStatistics = (type) => {
         if(type === 'country') {
@@ -61,6 +64,7 @@ function StatisticsScreen({
             };
             setCountryTotals(totals);
             setTotals(totals);
+            setIsLoading(false)
         });
 
         // Country Statistics
@@ -73,11 +77,12 @@ function StatisticsScreen({
 
         // Get Global History
         fetchCountryHistory("All").then(data => {
-            setHistory(data);
             if (data) {
                 setGlobalChartData(data.totalCasesHistory);
                 setChartData(data.totalCasesHistory);
+                setHistory(data);
             }
+            setHistoryLoading(false)
         });
 
         fetchCountryStatistics("All").then(data => {
@@ -142,25 +147,34 @@ function StatisticsScreen({
               { borderBottomRightRadius: 20, borderTopRightRadius: 20 }
           ];
 
-    return (
-        <View style={Styles.container}>
-            <View style={Styles.countryWrapper}>
-                <TouchableWithoutFeedback style={stylingLabel1} onPress={() => handleSwitchStatistics('country')}>
-                    <View style={stylingLabel1}>
-                        {flag && <Flag type="country" flag={flag} />}
-                        <Text style={Styles.country}>{country}</Text>
-                    </View>
-                </TouchableWithoutFeedback >
-                <TouchableWithoutFeedback style={[stylingLabel2]} onPress={() => handleSwitchStatistics('global')}>
-                    <View style={stylingLabel2}>
-                        <Flag type="globe" />
-                        <Text style={Styles.country}>World</Text>
-                    </View>
-                </TouchableWithoutFeedback >
+    if(!isLoading && !historyLoading){
+
+        return (
+            <View style={Styles.container}>
+                <View style={Styles.countryWrapper}>
+
+                    <TouchableWithoutFeedback style={stylingLabel1} onPress={() => handleSwitchStatistics('country')}>
+                        <View style={stylingLabel1}>
+                            {flag && <Flag type="country" flag={flag} />}
+                            <Text style={Styles.country}>{country}</Text>
+                        </View>
+                    </TouchableWithoutFeedback>
+
+                    <TouchableWithoutFeedback style={[stylingLabel2]} onPress={() => handleSwitchStatistics('global')}>
+                        <View style={stylingLabel2}>
+                            <Flag type="globe" />
+                            <Text style={Styles.country}>World</Text>
+                        </View>
+                    </TouchableWithoutFeedback>
+
+                </View>
+                <Statistics totals={totals} history={history} historyLoading={true} chartData={chartData} handleSelect={handleSelect} pickedDefaultValue={pickedDefaultValue}/>
             </View>
-            <Statistics totals={totals} history={history} chartData={chartData} handleSelect={handleSelect} pickedDefaultValue={pickedDefaultValue}/>
-        </View>
-    );
+        );
+
+    } else {
+        return <Loading />
+    }
 }
 
 export default StatisticsScreen;

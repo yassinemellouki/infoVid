@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Button, StatusBar } from "react-native";
+import { StyleSheet, Text, View, Button, Image, StatusBar } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
+import Icon from "../shared/Icon";
+
+import AnalysisIcon from "../assets/icons/analysis.png";
+import AlertIcon from "../assets/icons/alert.png";
+
 import LocationSelect from "../screens/LocationSelect";
 import  StatisticsScreen from "../screens/CountryStatistics";
 import Alert from "../screens/Alert";
@@ -16,6 +22,7 @@ export default function AppContainer() {
     const [selectedCountry, setSelectedCountry] = useState(null);
 
     let handleLocationSelect = (country) => {
+        console.log(country)
         setSelectedCountry(country);
         setLocationSelected(true);
     }
@@ -26,14 +33,42 @@ export default function AppContainer() {
             !locationSelected ? 
                 <LocationSelect handleLocationSelect={handleLocationSelect}/>
                 : 
-                <Tab.Navigator>
+                <Tab.Navigator
+                    screenOptions={({ route }) => ({
+                        tabBarIcon: ({focused, color, size}) => {
+                            let iconName;
+                            console.log(route)
+
+                            if(route.name === 'Statistics'){
+                                if(focused) {
+                                    return <Image source={AnalysisIcon} />;
+                                } else {
+                                    return <Image source={AnalysisIcon} style={{opacity: .5}} />;
+                                }
+
+                            }else if(route.name === 'Alert'){
+
+                                if(focused) {
+                                    return <Image source={AlertIcon} />;
+                                } else {
+                                    return <Image source={AlertIcon} style={{opacity: .5}} />;
+                                }
+
+                            }
+                        }     
+                    })}
+                    tabBarOptions={{
+                      activeTintColor: 'tomato',
+                      inactiveTintColor: 'gray',
+                    }}
+                >
                         <Tab.Screen name="Statistics">
                             {() => (
                                 <CountryStatisticsStack.Navigator>
                                     <CountryStatisticsStack.Screen
                                         name="Statistics"
                                         component={StatisticsScreen}
-                                        initialParams={{ country: selectedCountry}}
+                                        initialParams={{ country: selectedCountry.name}}
                                         options = {() => {
                                            return  ({
                                             headerLeft: (props) => (
@@ -50,7 +85,7 @@ export default function AppContainer() {
                             {() => (
                                 <AlertStack.Navigator >
                                     <AlertStack.Screen
-                                        name="Statistics"
+                                        name="Alert"
                                         component={Alert}
                                     />
                                 </AlertStack.Navigator>

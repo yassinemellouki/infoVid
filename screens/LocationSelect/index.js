@@ -1,32 +1,74 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ImageBackground, TextInput, Picker, Button } from 'react-native';
+import { View, Text, ImageBackground, TextInput, Picker, TouchableOpacity} from 'react-native';
 import { Styles } from "./Style"
-import WorldMap from "../../assets/worldmap.png"
+import Loading from '../../components/common/Loading';
+import WorldMap from "../../assets/worldmap.png";
 import PropTypes from 'prop-types';
+
+import { fetchCountries, deviceLocation } from "../../shared/API"
+import { isoCountries } from "../../shared/Helpers"
 
 import Selection from "./components/Selection"
 import Map from "./components/Map"
 
 export default function LocationSelect ({navigation, handleLocationSelect}) {
 
-    const [selectedCountry, setSelectedCountry] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [countries, setCountries] = useState({});
+    const [selectedCountry, setSelectedCountry] = useState({});
+    const [isAutoLocationSelected, setIsAutoLocationSelected] = useState(false);
+
 
     let handleNavigation = () => {
         navigation.navigate("Statistics");
     }
 
-    let passSelectedCountry = (country) => {
-        setSelectedCountry(country)
-    }
-    return (
-        <View style={Styles.container}>
-            {
-                //<ImageBackground source={WorldMap} style={Styles.imgBg}></ImageBackground>
+    useEffect(() => {
+
+        // Get location form Device
+        if(!isAutoLocationSelected){
+
+            let setDeviceLocation = async () => {
+
+                const address = await deviceLocation();
+
+                setSelectedCountry({name: address[0].country, isoCode: address[0].isoCountryCode})
+                setIsAutoLocationSelected(true);
             }
-            <Map selectedCountry={ selectedCountry } />
-            <Selection passSelectedCountry={passSelectedCountry}/>
-            <Button title="GO" onPress={() => handleLocationSelect(selectedCountry)}>
-            </Button>
-        </View>
-    );
+
+            // Fetching Countries form API
+            setDeviceLocation().then(() => {
+                    fetchCountries()
+                    .then(data => 
+                        {
+                            const fetchedCountries = data;
+                            setCountries(fetchedCountries)
+                            console.log('data.length: ', data.length);
+                            setIsLoading(false)
+                       })
+            })
+        }
+
+  },[selectedCountry, countries]);
+
+    const handleChange = (country, i) => {
+        setSelectedCountry({name: country, isoCode: isoCountries[country]});
+    };
+
+    if(!isLoading && countries.length > 0) {
+        return (
+            <View style={Styles.container}>
+                <Map selectedCountry={ selectedCountry.name } />
+                <Selection countries={countries} handleChange={handleChange} selectedCountry={selectedCountry}/>
+                <TouchableOpacity style={Styles.btn} onPress={() => handleLocationSelect(selectedCountry)}>
+                    <Text style={Styles.btnText}>Go</Text>
+                </TouchableOpacity >
+            </View>
+        ) 
+
+    } else {
+        return (
+            <Loading />
+        )
+    }
 }

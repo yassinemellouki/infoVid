@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { Colors } from "../../shared/Variables"
 
 export const Styles = StyleSheet.create({
 	container : {
@@ -24,6 +25,16 @@ export const Styles = StyleSheet.create({
         fontSize: 16,
         borderRadius: 8,
         color: 'black',
+    },
+    btn: {
+        backgroundColor: Colors.blue,
+        paddingVertical: 8,
+        paddingHorizontal: 22,
+        borderRadius: 4
+    },
+    btnText: {
+        fontSize: 16,
+        color: "white",
     }
 	
 });
