@@ -6,7 +6,7 @@ const { width, height } =  window.window;
 export const Styles = StyleSheet.create({
     map: {
         width,
-        height,
+        height: 300,
     }
 	
 });

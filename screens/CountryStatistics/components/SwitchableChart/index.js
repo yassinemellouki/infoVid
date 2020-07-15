@@ -1,11 +1,11 @@
 import React from 'react';
-import { Colors } from "../../../shared/Variables";
+import { Colors } from "../../../../shared/Variables";
 
 import {View, Text} from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import PropTypes from 'prop-types';
 
-import Icon from "../../../shared/Icon";
+import Icon from "../../../../shared/Icon";
 
 import CLineChart from "../LineChart";
 

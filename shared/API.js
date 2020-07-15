@@ -16,7 +16,9 @@ const requestParams = {
 const deviceLocation = async (type) => {
           const { status } = await Location.requestPermissionsAsync();
           if (status !== 'granted') {
-            setErrorMsg('Permission to access location was denied');
+            console.log('Permission to access location was denied');
+              // Return Default Country 'USA'
+              return [{country: 'United States', isoCountryCode: "US"}] 
           }
           const location = await Location.getCurrentPositionAsync();
           const address = await Location.reverseGeocodeAsync(location.coords);
@@ -108,8 +110,6 @@ const fetchCountryHistory = async (country) => {
             const data = await response.json();
 
             if(!data.response[0]){
-                console.log("data")
-                console.log(data)
                 return null 
                 break;
             }

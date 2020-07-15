@@ -4,12 +4,12 @@ import { Styles } from "./Style"
 import Slider from "./components/Slider";
 import PropTypes from 'prop-types';
 
-function Alert() {
+function Instructions() {
     return (
         <View style={Styles.container}>
-            <Slider />
+            <SubSlider />
         </View>
     );
 }
 
-export default Alert;
+export default Slider;

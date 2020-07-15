@@ -17,6 +17,7 @@ export default function LocationSelect ({navigation, handleLocationSelect}) {
     const [countries, setCountries] = useState({});
     const [selectedCountry, setSelectedCountry] = useState({});
     const [isAutoLocationSelected, setIsAutoLocationSelected] = useState(false);
+    const [isDisabled, setIsDisabled] = useState(true)
 
 
     let handleNavigation = () => {
@@ -43,7 +44,6 @@ export default function LocationSelect ({navigation, handleLocationSelect}) {
                         {
                             const fetchedCountries = data;
                             setCountries(fetchedCountries)
-                            console.log('data.length: ', data.length);
                             setIsLoading(false)
                        })
             })
@@ -60,7 +60,7 @@ export default function LocationSelect ({navigation, handleLocationSelect}) {
             <View style={Styles.container}>
                 <Map selectedCountry={ selectedCountry.name } />
                 <Selection countries={countries} handleChange={handleChange} selectedCountry={selectedCountry}/>
-                <TouchableOpacity style={Styles.btn} onPress={() => handleLocationSelect(selectedCountry)}>
+                <TouchableOpacity style={Styles.btn} disabled={false} onPress={() => handleLocationSelect(selectedCountry)}>
                     <Text style={Styles.btnText}>Go</Text>
                 </TouchableOpacity >
             </View>

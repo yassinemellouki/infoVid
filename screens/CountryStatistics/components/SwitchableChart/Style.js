@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { Colors } from "../../../shared/Variables";
+import { Colors } from "../../../../shared/Variables";
 
 export const Styles = StyleSheet.create({
     picker: {

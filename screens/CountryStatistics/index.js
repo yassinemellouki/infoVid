@@ -3,7 +3,7 @@ import { View, Text, Button, Dimensions, TouchableWithoutFeedback, StyleSheet } 
 import Loading from '../../components/common/Loading';
 import { Colors } from "../../shared/Variables";
 import Flag from "../../components/common/Flag";
-import Statistics from "./Statistics";
+import Statistics from "./components/Statistics";
 import { Styles } from "./Style";
 import PropTypes from "prop-types";
 

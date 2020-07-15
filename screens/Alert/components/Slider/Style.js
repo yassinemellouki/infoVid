@@ -1,15 +1,8 @@
 import { StyleSheet } from 'react-native';
-import window from "../../constants/layout"
-import { Colors } from "../../shared/Variables"
+import window from "../../../../constants/layout";
+import { Colors } from "../../../../shared/Variables";
 
 export const Styles = StyleSheet.create({
-	container : {
-		flex : 1,
-		backgroundColor: '#fff',
-		alignItems: 'center',
-		justifyContent : 'center'		
-	},
-
     slideWrapper: {
         overflow: 'hidden',
         justifyContent: 'space-around',

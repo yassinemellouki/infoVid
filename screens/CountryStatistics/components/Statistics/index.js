@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 
-import Head from "../../../components/common/Head";
-import Icon from "../../../shared/Icon";
+import Head from "../../../../components/common/Head";
+import Icon from "../../../../shared/Icon";
 
 import Total from "../Total";
 import SwitchableChart from "../SwitchableChart";

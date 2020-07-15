@@ -1,8 +1,8 @@
 import React from 'react';
-import Icon from "../../../shared/Icon";
+import Icon from "../../../../shared/Icon";
 import {View, Text} from 'react-native';
 import { Styles } from './Style';
-import { Colors } from "../../../shared/Variables";
+import { Colors } from "../../../../shared/Variables";
 import PropTypes from 'prop-types';
 
 function Total ({type, value}) {

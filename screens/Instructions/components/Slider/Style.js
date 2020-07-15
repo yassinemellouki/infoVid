@@ -1,15 +1,8 @@
 import { StyleSheet } from 'react-native';
-import window from "../../constants/layout"
-import { Colors } from "../../shared/Variables"
+import window from "../../../../constants/layout";
+import { Colors } from "../../../../shared/Variables";
 
 export const Styles = StyleSheet.create({
-	container : {
-		flex : 1,
-		backgroundColor: '#fff',
-		alignItems: 'center',
-		justifyContent : 'center'		
-	},
-
     slideWrapper: {
         overflow: 'hidden',
         justifyContent: 'space-around',
@@ -45,27 +38,37 @@ export const Styles = StyleSheet.create({
         paddingHorizontal: 15,
     },
 
-	image: {
-        width: "100%",
-        height: 250,
-        resizeMode: 'stretch',
-	},
 	hImage: {
         height: 200,
         resizeMode: 'contain',
         margin: 'auto',
 	},
-
+    introImage: {
+        height: 250,
+        resizeMode: 'contain',
+        margin: 'auto',
+    },
+    numberWrapper: {
+        backgroundColor: Colors.lightenRed,
+        alignSelf: 'center',
+        padding: 8,
+        borderRadius: 30,
+        margin: 10 
+    },
+    number: {
+        color: Colors.lightRed,
+        fontFamily: 'roboto-bold', 
+        fontSize: 26,
+    },
     text: {
         color: Colors.black,
         fontSize: 14,
-        paddingVertical: 6,
         lineHeight: 19,
     },
 
     text2: {
         textAlign: 'center',
-        paddingHorizontal: 40
+        padding: 10
     }
 
 });
