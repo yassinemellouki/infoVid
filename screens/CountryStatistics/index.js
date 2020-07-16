@@ -35,12 +35,12 @@ function StatisticsScreen({
 
     let handleSwitchStatistics = (type) => {
         if(type === 'country') {
-            setChartData(countryChartData);
+            setChartData(countryChartData.newCasesHistory);
             setTotals(countryTotals);
             setLabel1Active(true)
             setLabel2Active(false)
-        }else {
-            setChartData(globalChartData);
+        } else {
+            setChartData(globalChartData.newCasesHistory);
             setTotals(globalTotals);
             setLabel1Active(false)
             setLabel2Active(true)
@@ -48,51 +48,71 @@ function StatisticsScreen({
     }
 
     useEffect(() => {
-            // Get Country Flag
-            countryFlag(country).then(flag => {
+
+        // Get Country Flag
+        countryFlag(country).then(flag => {
             setFlag(flag);
         });
 
 
-        // Get Country Statistics
+        // Get Country Totals
         fetchCountryStatistics(country).then(data => {
+
             let totalCases = data.response[0];
             let totals = {
                 case: totalCases.cases.active,
                 recovered: totalCases.cases.recovered,
                 death: totalCases.deaths.total
             };
+
             setCountryTotals(totals);
             setTotals(totals);
             setIsLoading(false)
+
         });
 
-        // Country Statistics
+        // Get Country History
         fetchCountryHistory(country).then(data => {
-            setHistory(data);
             if (data) {
-                setCountryChartData(data.totalCasesHistory);
+                let newCasesToInt = data.newCasesHistory.map(value => parseInt(value));
+                let newDeathsToInt = data.newDeathsHistory.map(value => parseInt(value));
+                data.newCasesHistory = newCasesToInt;
+                data.newDeathsHistory = newDeathsToInt;
+                setHistory(data);
+                setChartData(data.newCasesHistory)
+                setCountryChartData(data);
             }
+
+        });
+
+        // Get Global Totals
+        fetchCountryStatistics("All").then(data => {
+
+            let totalCases = data.response[0];
+            let totals = {
+                case: totalCases.cases.active,
+                recovered: totalCases.cases.recovered,
+                death: totalCases.deaths.total
+            };
+
+            setGlobalTotals(totals);
+
         });
 
         // Get Global History
         fetchCountryHistory("All").then(data => {
-            if (data) {
-                setGlobalChartData(data.totalCasesHistory);
-                setChartData(data.totalCasesHistory);
-                setHistory(data);
-            }
-            setHistoryLoading(false)
-        });
 
-        fetchCountryStatistics("All").then(data => {
-            let totalCases = data.response[0];
-            let totals = {
-                case: totalCases.cases.active,
-                recovered: totalCases.cases.recovered,
-                death: totalCases.deaths.total
-            };
-            setGlobalTotals(totals);
+            if (data) {
+                //setHistory(data);
+                let newCasesToInt = data.newCasesHistory.map(value => parseInt(value));
+                let newDeathsToInt = data.newDeathsHistory.map(value => parseInt(value));
+                data.newCasesHistory = newCasesToInt;
+                data.newDeathsHistory = newDeathsToInt;
+                setGlobalChartData(data)
+            }
+
+            setHistoryLoading(false)
+
         });
 
     }, []);

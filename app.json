@@ -33,6 +33,10 @@
                 "wasm",
                 "svg"
             ]
+        },
+        "android": {
+            "package": "com.ym.infoVid",
+            "versionCode": 1
         }
     }
 }

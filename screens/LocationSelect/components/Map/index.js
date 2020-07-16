@@ -10,9 +10,11 @@ import MapStyle from "./MapStyle.json";
 
 import PropTypes from "prop-types";
 
-function Map({ selectedCountry }) {
+function Map({ selectedCountry, passRegionChanged }) {
     const [region, setRegion] = useState({});
+    const [isChanged, setIsChanged] = useState(true)
     useEffect(() => {
+        passRegionChanged(true)
         if (selectedCountry) {
             fetchCountryGFromName(selectedCountry).then(data => {
                 let region = {};
@@ -35,6 +37,7 @@ function Map({ selectedCountry }) {
 
     function onRegionChange(region) {
         setRegion({ region });
+        passRegionChanged(false);
     }
 
     return (

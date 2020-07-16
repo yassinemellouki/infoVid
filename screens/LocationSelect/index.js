@@ -55,15 +55,19 @@ export default function LocationSelect ({navigation, handleLocationSelect}) {
         setSelectedCountry({name: country, isoCode: isoCountries[country]});
     };
 
+    let passRegionChanged = (value) => {
+        setIsDisabled(value)
+    }
+
     if(!isLoading && countries.length > 0) {
         return (
-            <View style={Styles.container}>
-                <Map selectedCountry={ selectedCountry.name } />
-                <Selection countries={countries} handleChange={handleChange} selectedCountry={selectedCountry}/>
-                <TouchableOpacity style={Styles.btn} disabled={false} onPress={() => handleLocationSelect(selectedCountry)}>
-                    <Text style={Styles.btnText}>Go</Text>
-                </TouchableOpacity >
-            </View>
+                <View style={Styles.container}>
+                    <Map selectedCountry={ selectedCountry.name } passRegionChanged={ passRegionChanged} />
+                    <Selection countries={countries} handleChange={handleChange} selectedCountry={selectedCountry}/>
+                    <TouchableOpacity style={[Styles.btn, {opacity: isDisabled ? 0.4 : 1}]} disabled={isDisabled} onPress={() => handleLocationSelect(selectedCountry)}>
+                        <Text style={Styles.btnText}>Go</Text>
+                    </TouchableOpacity >
+                </View>
         ) 
 
     } else {

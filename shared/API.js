@@ -16,7 +16,7 @@ const requestParams = {
 const deviceLocation = async (type) => {
           const { status } = await Location.requestPermissionsAsync();
           if (status !== 'granted') {
-            console.log('Permission to access location was denied');
+              console.log('Permission to access location was denied');
               // Return Default Country 'USA'
               return [{country: 'United States', isoCountryCode: "US"}] 
           }
@@ -160,6 +160,7 @@ const fetchCountryISO2FromName = async (country) => {
     return iso2;
 
 }
+
 const countryFlag = async (country) => {
     
     let countryIso3 = await fetchCountryISO2FromName(country)
@@ -173,18 +174,17 @@ function Returns(data, country, toReturn) {
     if(toReturn === 'geolocation') {
 
         if(data.status !== 404) {
+        if(country === "United States"){
+            return data[1]["latlng"];
+        }else {
             return data[0]["latlng"];
+        }    
+
         }else {
             return {};
         }
 
     }else if(toReturn === "iso2") {
-
-        /*
-        if(country === "United States"){
-            return data[1].alpha2Code;
-        }    
-        */
 
         return data[0].alpha2Code;
     }
