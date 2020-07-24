@@ -1,5 +1,6 @@
 import { API_ROUTES, API_KEY, ISO_COUNTRY_INFO, COUNTRY_FLAG, COUNTRY_INFO } from "./Config";
 import moment from 'moment';
+import * as Permissions from 'expo-permissions';
 import * as Location from 'expo-location';
 import { isoCountries } from "./Helpers";
 import { Country, isoCountry } from 'iso-country';
@@ -14,13 +15,13 @@ const requestParams = {
     };
 
 const deviceLocation = async (type) => {
-          const { status } = await Location.requestPermissionsAsync();
+          const { status } = await Permissions.askAsync(Permissions.LOCATION);
           if (status !== 'granted') {
               console.log('Permission to access location was denied');
               // Return Default Country 'USA'
               return [{country: 'United States', isoCountryCode: "US"}] 
           }
-          const location = await Location.getCurrentPositionAsync();
+          const location = await Location.getCurrentPositionAsync({enableHighAccuracy: true });
           const address = await Location.reverseGeocodeAsync(location.coords);
             if(type === "geolocation") {
                     return {latitude, longitude}
