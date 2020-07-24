@@ -23,7 +23,7 @@
     "iso-country": "^1.0.7",
     "iso-country-currency": "^0.5.1",
     "moment": "^2.27.0",
-    "npm": "^6.14.5",
+    "npm": "^6.14.6",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-37.0.1.tar.gz",
